@@ -1,4 +1,4 @@
-import { startMovies, okMovies, errorMovies } from "./moviesSlice";
+import { startMovies, okMovies, errorMovies, dissableSearch, ennableSearch } from "./moviesSlice";
 import { getMovie, getMovieById } from "../../serivces";
 
 export const startingListarMovies = ({next})=>{
@@ -7,7 +7,8 @@ export const startingListarMovies = ({next})=>{
         try {
             const {data} = await getMovie({next});
             if (data){
-                dispatch( okMovies(data.results) );
+                dispatch( okMovies(data) );
+                dispatch( dissableSearch());
                 return;
             }
         } catch (error) {
@@ -18,13 +19,14 @@ export const startingListarMovies = ({next})=>{
 
 };
 
-export const startingListarMoviesById = ({searchKey})=>{
+export const startingListarMoviesById = ({searchKey, nextSearch})=>{
     return async ( dispatch )=>{
         dispatch( startMovies() );
         try {
-            const {data} = await getMovieById({searchKey});
+            const {data} = await getMovieById({searchKey, nextSearch});
             if (data){
-                dispatch( okMovies(data.results) );
+                dispatch( okMovies(data) );
+                dispatch( ennableSearch()) ;
                 return;
             }
         } catch (error) {

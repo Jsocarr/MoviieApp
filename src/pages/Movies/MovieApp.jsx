@@ -4,22 +4,30 @@ import { useMovies } from "./hooks/useMovies";
 
 export const MovieApp = () => {
     const [ next, setNext ] = useState(1);
+    const [ nextSearch, setNextSearch ] = useState(1);
     const [ searchKey, setSearchKey ] = useState ('');
-    const { listarMovies, onListarMovies, onBuscar} = useMovies();
+    const { listarMovies, searchState, pagesNumber, onListarMovies, onBuscar} = useMovies();
     const last = ()=> next === 1 ? 1 : setNext(next - 1);
+    const lastSearch = ()=> nextSearch === 1 ? 1 : setNextSearch(nextSearch - 1);
 
     const search = (e) =>{
         e.preventDefault();
-        onBuscar(searchKey)
-      }
+        onBuscar({searchKey,nextSearch})
+    }
+
+    useEffect(()=>{
+        onBuscar({searchKey,nextSearch});  
+      },[nextSearch]);
 
     useEffect(()=>{
         onListarMovies({next});  
+        console.log(listarMovies)
       },[next]);
 
     useEffect(() => {
         if (searchKey.trim() === "") {
           setNext(1);
+          setNextSearch(1)
           onListarMovies({next})
         }
     }, [searchKey]);
@@ -95,34 +103,79 @@ export const MovieApp = () => {
                     alignItems:'center', 
                     padding:5,
                     gap:3}}>
-                <Button 
-                    onClick={last}
-                    sx={{
-                        alignSelf: 'center',
-                        backgroundColor: '#800080',
-                        color: '#fff', 
-                        '&:hover': {
-                            backgroundColor: '#6a006a', 
-                        },
-                    }}
-                    variant="contained" 
-                >
-                    Last
-                </Button>
-                <Button 
-                    onClick={()=> setNext(next + 1)}
-                    sx={{
-                        alignSelf: 'center',
-                        backgroundColor: '#800080', 
-                        color: '#fff', 
-                        '&:hover': {
-                            backgroundColor: '#6a006a', 
-                        },
-                    }}
-                    variant="contained"
-                > 
-                    Next
-                </Button>
+                {
+                    !searchState ? 
+                    <>
+                        <Button 
+                        onClick={last}
+                        sx={{
+                            alignSelf: 'center',
+                            backgroundColor: '#800080',
+                            color: '#fff', 
+                            '&:hover': {
+                                backgroundColor: '#6a006a', 
+                            },
+                        }}
+                        variant="contained" 
+                        >
+                        Last
+                        </Button>
+                        <Button 
+                            onClick={()=> {
+                                if(next < pagesNumber){
+                                    setNext(next + 1)
+                                }
+                            }}
+                            sx={{
+                                alignSelf: 'center',
+                                backgroundColor: '#800080', 
+                                color: '#fff', 
+                                '&:hover': {
+                                    backgroundColor: '#6a006a', 
+                                },
+                            }}
+                            variant="contained"
+                        > 
+                            Next
+                        </Button> 
+                    </>
+                    : 
+                    <>
+                        <Button 
+                        onClick={lastSearch}
+                        sx={{
+                            alignSelf: 'center',
+                            backgroundColor: '#800080',
+                            color: '#fff', 
+                            '&:hover': {
+                                backgroundColor: '#6a006a', 
+                            },
+                        }}
+                        variant="contained" 
+                        >
+                        Last
+                        </Button>
+                        <Button 
+                            onClick={()=>{
+                                if(nextSearch < pagesNumber){
+                                    setNextSearch(nextSearch + 1)
+                                }
+                            }}
+                            sx={{
+                                alignSelf: 'center',
+                                backgroundColor: '#800080', 
+                                color: '#fff', 
+                                '&:hover': {
+                                    backgroundColor: '#6a006a', 
+                                },
+                            }}
+                            variant="contained"
+                        > 
+                            Next
+                        </Button> 
+                    </>
+                }
+                
             </Grid>
         </>
     )
