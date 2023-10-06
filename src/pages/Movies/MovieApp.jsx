@@ -21,7 +21,6 @@ export const MovieApp = () => {
 
     useEffect(()=>{
         onListarMovies({next});  
-        console.log(listarMovies)
       },[next]);
 
     useEffect(() => {
@@ -35,8 +34,8 @@ export const MovieApp = () => {
     return(
         <>
             <Typography variant="h1" sx={{textAlign:'center', marginTop: 2}}>Popular Movies</Typography>
-            <Grid container pt={1} spacing={1} justifyContent="center" alignItems="center" marginTop={3} marginLeft={1} >
-                <Grid item sm={6} xs={8}>
+            <Grid container pt={1} spacing={1} justifyContent="center" alignItems="center" marginTop={3} gap={3}>
+                <Grid item sm={3} xs={7}>
                     <TextField
                         size="small"
                         fullWidth
@@ -50,7 +49,8 @@ export const MovieApp = () => {
                             '& .MuiInputLabel-root': {
                                 color: 'white',  
                             },
-                            borderRadius:1
+                            borderRadius:1,
+                            marginLeft:3
                         }}
                         onChange={(e) => {
                             setSearchKey(e.target.value)
