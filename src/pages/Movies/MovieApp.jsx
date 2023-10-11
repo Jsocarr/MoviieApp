@@ -34,7 +34,6 @@ export const MovieApp = () => {
     return(
         <>
             <Typography variant="h1" sx={{textAlign:'center', marginTop: 2}}>Popular Movies</Typography>
-            <Typography variant="h3" sx={{textAlign:'center', marginTop: 2}}>Buena Suerte Esther</Typography>
             <Grid container pt={1} spacing={1} justifyContent="center" alignItems="center" marginTop={3} gap={3}>
                 <Grid item sm={3} xs={7}>
                     <TextField
